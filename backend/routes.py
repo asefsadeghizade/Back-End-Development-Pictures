@@ -41,23 +41,13 @@ def get_pictures():
 # GET A PICTURE
 ######################################################################
 
-
-@app.route("/picture", methods=["POST"])
-def create_picture():
-
-    # get data from the json body
-    picture_in = request.json
-    print(picture_in)
-
-    # if the id is already there, return 303 with the URL for the resource
+@app.route("/picture/<int:id>", methods=["GET"])
+def get_picture_by_id(id):
     for picture in data:
-        if picture_in["id"] == picture["id"]:
-            return {
-                "Message": f"picture with id {picture_in['id']} already present"
-            }, 302
+        if picture["id"] == id:
+            return picture
+    return {"message": "picture not found"}, 404
 
-    data.append(picture_in)
-    return picture_in, 201
 
 ######################################################################
 # CREATE A PICTURE
